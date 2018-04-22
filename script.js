@@ -12,7 +12,7 @@ function addBeer(name,category,rate){
 
 
 };
-
+/*  version 1 comment only 
 function renderBeers(){
     $(".beers-list li").remove();
     for(let i=0; i<beers.length ; i++){
@@ -25,6 +25,32 @@ function renderBeers(){
             $(".beers-list li").eq(i).append("<button class='editCommentsButton'>Edit Comments</button> <button class='deleteCommentsButton'>Del Comments</button>")
         }
     }
+*/
+
+function renderBeers(){
+    $(".beers-list > li").remove();
+    for(let i=0; i<beers.length ; i++){
+        /*
+        $(".beers-list").append("<li>" + beers[i].name + " " + beers[i].category + 
+        " " + beers[i].rate  +
+            "<button class='commentsButton'>Comments</button>" +
+            "</ul>")*/
+            
+            $(".beers-list").append("<li>" + beers[i].name + " " + beers[i].category + 
+            " " + beers[i].rate  + " <button class='delButton'>Delete</button>"
+             + "<ul class='listComments'> " +
+                "<button class='commentsButton'>Comments</button>" +
+                "</ul>") 
+        
+        if(beers[i].comments != ""){
+            // $(".commentsButton").remove()
+            $(".beers-list> li> .listComments").eq(i).append("<li> <span class='spanComments'>" + beers[i].comments+ "</span>"+
+             "<button class='editCommentsButton'>Edit Comments</button>"+
+             "<button class='deleteCommentsButton'>Del Comments</button>" 
+         + "</li'> ")
+        }
+    }
+
 
 
 
@@ -76,7 +102,7 @@ $(".beers-list").on('click','.commentsButton', function() {
     $(this).attr( "class", "saveComments" )
         
     $(this).click(function () { 
-        beers[($(this).parent('li').index())].comments = $('.comments').val()
+        beers[($(this).parents('ul.beers-list > li').index())].comments = $('.comments').val()
         renderBeers();
     });
     
@@ -100,10 +126,11 @@ function saveComment(butt){
 $(".beers-list").on('click','.editCommentsButton', function() {
     
     $(this).parent(this).append("<textarea class='comments'> </textarea>");
-    $(".comments").val(beers[($(this).parent('li').index())].comments);
-    $('.commentsButton').remove(); 
-    $('.delButton').remove();
-    $('li span').css({"visibility": "hidden", "display": "none"})
+   
+    $(".comments").val(beers[($(this).parents('ul.beers-list > li').index())].comments);
+    //$(this).siblings('.commentsButton').remove();
+    $(this).siblings('.spanComments').css({"visibility": "hidden", "display": "none"})
+    /
     
     
     //saveComment("'.editCommentsButton'");
@@ -112,7 +139,7 @@ $(".beers-list").on('click','.editCommentsButton', function() {
     $(this).attr( "class", "saveComments" )
         
     $(this).click(function () { 
-        beers[($(this).parent('li').index())].comments = $('.comments').val()
+        beers[($(this).parents('ul.beers-list > li').index())].comments = $('.comments').val()
         renderBeers();
     }); 
 
@@ -123,7 +150,7 @@ $(".beers-list").on('click','.editCommentsButton', function() {
 
 $(".beers-list").on('click','.deleteCommentsButton', function() {
 
-    beers[($(this).parent('li').index())].comments = '';
+    beers[($(this).parents('ul.beers-list > li').index())].comments = '';
     renderBeers();
 
 });
