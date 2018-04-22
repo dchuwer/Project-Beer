@@ -68,7 +68,7 @@ $(".post-beer").click(function (){
 
 $(".sort-beer").click(function () {
          
-  
+  /*
     if (!sortA){
         beers = beers.sort(function(a, b){return a.rate - b.rate});
         sortA = true;
@@ -79,8 +79,16 @@ $(".sort-beer").click(function () {
         beers = beers.sort(function(a, b){return a.rate + b.rate});
         sortA = false;
     }
- 
-    
+ */
+
+    beers.toggled_sort = function () {
+    var self=this;
+    this.asc=!this.asc;
+    return this.sort(function (l, r) {
+        return l.rate > r.rate ? (self.asc ? 1 : -1) : l.rate < r.rate ? (self.asc ? -1 : 1) : 0;
+    });
+};
+    beers.toggled_sort();
 
     renderBeers();
 })
